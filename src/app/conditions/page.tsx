@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import CategoryPill from "@/components/ui/CategoryPill";
 import ConditionCard from "@/components/conditions/ConditionCard";
@@ -9,7 +9,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import { useConditions } from "@/hooks/useConditions";
 import { useCategories } from "@/hooks/useCategories";
 
-export default function ConditionsPage() {
+function ConditionsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get("category") || undefined;
@@ -116,5 +116,13 @@ export default function ConditionsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ConditionsPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <ConditionsContent />
+    </Suspense>
   );
 }
