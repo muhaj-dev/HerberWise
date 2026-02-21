@@ -14,7 +14,6 @@ import {
   ArrowLeft,
   LogOut,
   Menu,
-  X,
 } from "lucide-react";
 
 const adminNav = [

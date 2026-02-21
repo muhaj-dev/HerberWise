@@ -8,7 +8,6 @@ import {
   Shield,
   BookOpen,
   AlertTriangle,
-  Sparkles,
   CheckCircle2,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -17,7 +16,7 @@ import HerbCard from "@/components/herbs/HerbCard";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import EmptyState from "@/components/ui/EmptyState";
 import { useHerbs } from "@/hooks/useHerbs";
-import { useCategories } from "@/hooks/useCategories";
+
 
 const categories = [
   { name: "Pain Relief", emoji: "🌿", slug: "pain-relief" },
