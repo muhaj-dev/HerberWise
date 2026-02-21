@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HerbWise — Natural Herbal Remedies Platform
+
+A full-stack Next.js application for discovering traditional herbal remedies. Built with TypeScript, Tailwind CSS, Supabase, TanStack Query, React Hook Form, and Zod.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A [Supabase](https://supabase.com) project
+
+### 1. Install Dependencies
+
+```bash
+cd herbwise
+npm install
+```
+
+### 2. Set Up Supabase
+
+1. Create a new Supabase project at [supabase.com](https://supabase.com)
+2. In the Supabase SQL Editor, run the following files **in order**:
+   - `supabase/schema.sql` — creates all tables and triggers
+   - `supabase/rls.sql` — sets up Row Level Security policies
+   - `supabase/seed.sql` — populates initial data (categories, conditions, herbs)
+
+### 3. Configure Environment Variables
+
+Copy the example env file and fill in your Supabase credentials:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Fill in:
+
+- `NEXT_PUBLIC_SUPABASE_URL` — your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` — your Supabase anonymous key
+- `SUPABASE_SERVICE_ROLE_KEY` — your Supabase service role key (for admin actions)
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+herbwise/
+├── supabase/              # SQL files for database setup
+│   ├── schema.sql         # Tables and triggers
+│   ├── rls.sql            # Row Level Security policies
+│   └── seed.sql           # Initial seed data
+├── src/
+│   ├── app/               # Next.js App Router pages
+│   │   ├── page.tsx           # Home page
+│   │   ├── find-a-remedy/     # Search & filter conditions
+│   │   ├── conditions/        # Browse & detail pages
+│   │   ├── herbs/             # Library & detail pages
+│   │   ├── safety/            # Safety guidelines
+│   │   ├── about/             # About & sources
+│   │   ├── auth/              # Login, signup, logout
+│   │   ├── dashboard/         # User dashboard
+│   │   └── admin/             # Admin dashboard (layout, actions, sub-pages)
+│   ├── components/        # React components
+│   │   ├── ui/                # Reusable UI primitives
+│   │   ├── layout/            # Navbar, Footer
+│   │   ├── herbs/             # HerbCard
+│   │   └── conditions/        # ConditionCard
+│   ├── hooks/             # TanStack Query data hooks
+│   ├── lib/               # Supabase clients, query config
+│   └── types/             # TypeScript interfaces
+├── middleware.ts          # Auth & route protection
+└── tailwind.config.ts     # Design system tokens
+```
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+| Layer     | Technology              |
+| --------- | ----------------------- |
+| Framework | Next.js 14 (App Router) |
+| Language  | TypeScript              |
+| Styling   | Tailwind CSS            |
+| Database  | Supabase (PostgreSQL)   |
+| Auth      | Supabase Auth (SSR)     |
+| Data      | TanStack Query          |
+| Forms     | React Hook Form + Zod   |
+| Icons     | Lucide React            |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Admin Access
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To access the admin dashboard at `/admin`, you need a user with `role = 'admin'` in the `profiles` table. After signing up, manually update your profile in the Supabase dashboard:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sql
+UPDATE profiles SET role = 'admin' WHERE id = 'your-user-id';
+```

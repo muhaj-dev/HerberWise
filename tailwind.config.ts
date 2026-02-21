@@ -9,8 +9,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        sage: {
+          50: "#E8F0E9",
+          100: "#D4EAD7",
+          200: "#B8D9BC",
+        },
+        herb: {
+          dark: "#1C3A2A",
+          accent: "#2D5A3D",
+        },
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
       },
     },
   },
